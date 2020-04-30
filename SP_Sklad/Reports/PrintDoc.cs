@@ -5,14 +5,14 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using SP.Base.Models;
 using SP_Sklad.Common;
-using SP_Sklad.SkladData;
 
 namespace SP_Sklad.Reports
 {
     class PrintDoc
     {
-        public static void Show(Guid id, int doc_type, BaseEntities db)
+        public static void Show(Guid id, int doc_type, SPBaseModel db)
         {
             db.SaveChanges();
 
@@ -104,7 +104,7 @@ namespace SP_Sklad.Reports
                 {
                     OriginatorId = id,
                     PrintType = 2,
-                    UserId = DBHelper.CurrentUser.UserId,
+                    UserId = Common.DBHelper.CurrentUser.UserId,
                     OnDate = DateTime.Now
                 });
 
@@ -112,7 +112,7 @@ namespace SP_Sklad.Reports
             }
         }
 
-        public static void WayBillInReport(Guid id, BaseEntities db, string template_name)
+        public static void WayBillInReport(Guid id, SPBaseModel db, string template_name)
         {
             var dataForReport = new Dictionary<string, IList>();
 
@@ -125,7 +125,7 @@ namespace SP_Sklad.Reports
              IHelper.Print(dataForReport, template_name);
         }
 
-        public static void WayBillReport(Guid id, BaseEntities db, string template_name)
+        public static void WayBillReport(Guid id, SPBaseModel db, string template_name)
         {
             var dataForReport = new Dictionary<string, IList>();
 
@@ -152,7 +152,7 @@ namespace SP_Sklad.Reports
             }
         }
 
-        public static Dictionary<string, IList> WayBillOrderedOutReport(Guid id, BaseEntities db)
+        public static Dictionary<string, IList> WayBillOrderedOutReport(Guid id, SPBaseModel db)
         {
             var dataForReport = new Dictionary<string, IList>();
 
@@ -174,7 +174,7 @@ namespace SP_Sklad.Reports
             return dataForReport;
         }
 
-        public static void WayBillMoveReport(Guid id, BaseEntities db, string template_name)
+        public static void WayBillMoveReport(Guid id, SPBaseModel db, string template_name)
         {
             var dataForReport = new Dictionary<string, IList>();
 
@@ -199,7 +199,7 @@ namespace SP_Sklad.Reports
         }
 
 
-        public static void WayBillInvwntoryReport(Guid id, BaseEntities db, string template_name)
+        public static void WayBillInvwntoryReport(Guid id, SPBaseModel db, string template_name)
         {
             var dataForReport = new Dictionary<string, IList>();
             var rel = new List<object>();
@@ -242,7 +242,7 @@ namespace SP_Sklad.Reports
             IHelper.Print(dataForReport, template_name);
         }
 
-        public static Dictionary<string, IList> WayBillOutReport(Guid id, BaseEntities db)
+        public static Dictionary<string, IList> WayBillOutReport(Guid id, SPBaseModel db)
         {
             var data_report = new Dictionary<string, IList>();
 
@@ -306,7 +306,7 @@ namespace SP_Sklad.Reports
             return data_report;
         }
 
-        public static void InvoiceReport(Guid id, BaseEntities db, string template_name)
+        public static void InvoiceReport(Guid id, SPBaseModel db, string template_name)
         {
             var data_report = new Dictionary<string, IList>();
 
@@ -328,7 +328,7 @@ namespace SP_Sklad.Reports
             IHelper.Print(data_report, template_name);
         }
 
-        public static void DeboningReport(Guid id, BaseEntities db)
+        public static void DeboningReport(Guid id, SPBaseModel db)
         {
             var dataForReport = new Dictionary<string, IList>();
             var date = db.WaybillList.Where(w=> w.Id == id).Select(s=> s.OnDate).First();
@@ -373,7 +373,7 @@ namespace SP_Sklad.Reports
             IHelper.Print(dataForReport, TemlateList.wb_deb);
         }
 
-        public static void MakedReport(Guid id, BaseEntities db)
+        public static void MakedReport(Guid id, SPBaseModel db)
         {
             var dataForReport = new Dictionary<string, IList>();
             var wbl = db.WaybillList.Where(w => w.Id == id).Select(s => new { s.OnDate, s.WbillId }).First();
@@ -426,7 +426,7 @@ namespace SP_Sklad.Reports
              IHelper.Print(dataForReport, TemlateList.wb_maked);
         }
 
-        public static void PayDocReport(Guid id, BaseEntities db, string template_name)
+        public static void PayDocReport(Guid id, SPBaseModel db, string template_name)
         {
             var dataForReport = new Dictionary<string, IList>();
             var pd = db.v_PayDoc.Where(w => w.Id == id).AsNoTracking().ToList();
@@ -443,7 +443,7 @@ namespace SP_Sklad.Reports
 
         }
 
-        public static void PriseListReport(Guid id, BaseEntities db)
+        public static void PriseListReport(Guid id, SPBaseModel db)
         {
             var dataForReport = new Dictionary<string, IList>();
 
@@ -463,7 +463,7 @@ namespace SP_Sklad.Reports
             IHelper.Print(dataForReport, TemlateList.p_list);
         }
 
-        public static void PlannedCalculationReport(Guid id, BaseEntities db)
+        public static void PlannedCalculationReport(Guid id, SPBaseModel db)
         {
             var dataForReport = new Dictionary<string, IList>();
 
@@ -518,7 +518,7 @@ namespace SP_Sklad.Reports
             IHelper.Print(dataForReport, TemlateList.planned_calculation);
         }
 
-        public static void ProductionPlansReport(Guid id, BaseEntities db, string template_name)
+        public static void ProductionPlansReport(Guid id, SPBaseModel db, string template_name)
         {
             var dataForReport = new Dictionary<string, IList>();
 

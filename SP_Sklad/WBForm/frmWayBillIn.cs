@@ -1,31 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using SP_Sklad.SkladData;
 using SP_Sklad.WBDetForm;
-using System.Data.SqlClient;
-using System.Data.Linq;
-using EntityState = System.Data.Entity.EntityState;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using SP_Sklad.Reports;
 using SP_Sklad.Common;
-using SP_Sklad.Common.WayBills;
 using SP_Sklad.Properties;
+using SP.Base.Models;
+using SP.Base;
+using SkladEngine.ModelViews;
+using SkladEngine.WayBills;
 
 namespace SP_Sklad.WBForm
 {
     public partial class frmWayBillIn : DevExpress.XtraEditors.XtraForm
     {
         private int _wtype { get; set; }
-        public BaseEntities _db { get; set; }
+        public SPBaseModel _db { get; set; }
         private int? _wbill_id { get; set; }
         public Guid? doc_id { get; set; }
         private WaybillList wb { get; set; }
@@ -44,8 +39,8 @@ namespace SP_Sklad.WBForm
             is_new_record = false;
             _wtype = wtype;
             _wbill_id = wbill_id;
-            _db = new BaseEntities();
-            user_settings = new UserSettingsRepository(DBHelper.CurrentUser.UserId, _db);
+            _db = new SPBaseModel();
+            user_settings = new UserSettingsRepository(Common.DBHelper.CurrentUser.UserId);
 
             InitializeComponent();
         }
@@ -62,14 +57,14 @@ namespace SP_Sklad.WBForm
                 {
                     Id = Guid.NewGuid(),
                     WType = _wtype,
-                    OnDate = DBHelper.ServerDateTime(),
+                    OnDate = SkladEngine.Common.DBHelper.ServerDateTime(),
                     Num = "",
                     CurrId = 2,
                     OnValue = 1,
-                    PersonId = DBHelper.CurrentUser.KaId,
-                    Nds = DBHelper.Enterprise.NdsPayer == 1 ? DBHelper.CommonParam.Nds : 0,
-                    UpdatedBy = DBHelper.CurrentUser.UserId,
-                    EntId = DBHelper.Enterprise.KaId,
+                    PersonId = Common.DBHelper.CurrentUser.KaId,
+                    Nds = Common.DBHelper.Enterprise.NdsPayer == 1 ? Common.DBHelper.CommonParam.Nds : 0,
+                    UpdatedBy = Common.DBHelper.CurrentUser.UserId,
+                    EntId = Common.DBHelper.Enterprise.KaId,
                 });
 
                 _db.SaveChanges();
@@ -81,11 +76,11 @@ namespace SP_Sklad.WBForm
 
             if (wb != null)
             {
-                DBHelper.UpdateSessionWaybill(wb.WbillId);
+                Common.DBHelper.UpdateSessionWaybill(wb.WbillId);
 
                 if (is_new_record) //Після копіювання згенерувати новий номер
                 {
-                    wb.Num = new BaseEntities().GetDocNum("wb_in").FirstOrDefault();
+                    wb.Num = new SPBaseModel().GetDocNum("wb_in").FirstOrDefault();
                 }
 
                 WaybillListBS.DataSource = wb;
@@ -287,7 +282,7 @@ namespace SP_Sklad.WBForm
             _db.UpdWaybillDetPrice(_wbill_id);
             
             int top_row = WaybillDetInGridView.TopRowIndex;
-            WaybillDetInBS.DataSource = _db.GetWaybillDetIn(_wbill_id).AsNoTracking().OrderBy(o=> o.Num).ToList();
+            WaybillDetInBS.DataSource = GetWaybillDet.GetWaybillDetIn(_wbill_id.Value, _db).OrderBy(o=> o.Num).ToList();
             WaybillDetInGridView.TopRowIndex = top_row;
 
             GetOk();
@@ -400,11 +395,11 @@ namespace SP_Sklad.WBForm
         {
             if (_wtype == 16)
             {
-                IHelper.ShowMatListByWH(_db, wb);
+                new_IHelper.ShowMatListByWH(_db, wb);
             }
             else
             {
-                IHelper.ShowMatList(_db, wb);
+                new_IHelper.ShowMatList(_db, wb);
             }
 
             RefreshDet();

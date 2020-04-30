@@ -56,10 +56,10 @@
             this.colOnDate = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.colKaName = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.colSummInCurr = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.colSummAll = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.colCurrName = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.colOnValue = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.colCurrName = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.colSummInCurr = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.colSaldo = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.wTypeList = new DevExpress.XtraEditors.LookUpEdit();
@@ -391,6 +391,33 @@
             this.gridBand2.VisibleIndex = 1;
             this.gridBand2.Width = 449;
             // 
+            // colSummAll
+            // 
+            this.colSummAll.Caption = "Сума в валюті";
+            this.colSummAll.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.colSummAll.FieldName = "SummAll";
+            this.colSummAll.Name = "colSummAll";
+            this.colSummAll.Visible = true;
+            this.colSummAll.Width = 105;
+            // 
+            // colOnValue
+            // 
+            this.colOnValue.Caption = "Курс";
+            this.colOnValue.DisplayFormat.FormatString = "0.00";
+            this.colOnValue.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.colOnValue.FieldName = "OnValue";
+            this.colOnValue.Name = "colOnValue";
+            this.colOnValue.Visible = true;
+            this.colOnValue.Width = 55;
+            // 
+            // colCurrName
+            // 
+            this.colCurrName.Caption = "Валюта";
+            this.colCurrName.FieldName = "CurrName";
+            this.colCurrName.Name = "colCurrName";
+            this.colCurrName.Visible = true;
+            this.colCurrName.Width = 64;
+            // 
             // colSummInCurr
             // 
             this.colSummInCurr.AppearanceCell.BackColor = System.Drawing.Color.AliceBlue;
@@ -402,33 +429,6 @@
             this.colSummInCurr.Name = "colSummInCurr";
             this.colSummInCurr.Visible = true;
             this.colSummInCurr.Width = 123;
-            // 
-            // colSummAll
-            // 
-            this.colSummAll.Caption = "Сума в валюті";
-            this.colSummAll.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.colSummAll.FieldName = "SummAll";
-            this.colSummAll.Name = "colSummAll";
-            this.colSummAll.Visible = true;
-            this.colSummAll.Width = 105;
-            // 
-            // colCurrName
-            // 
-            this.colCurrName.Caption = "Валюта";
-            this.colCurrName.FieldName = "CurrName";
-            this.colCurrName.Name = "colCurrName";
-            this.colCurrName.Visible = true;
-            this.colCurrName.Width = 64;
-            // 
-            // colOnValue
-            // 
-            this.colOnValue.Caption = "Курс";
-            this.colOnValue.DisplayFormat.FormatString = "0.00";
-            this.colOnValue.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.colOnValue.FieldName = "OnValue";
-            this.colOnValue.Name = "colOnValue";
-            this.colOnValue.Visible = true;
-            this.colOnValue.Width = 55;
             // 
             // colSaldo
             // 
@@ -536,7 +536,7 @@
             this.Controls.Add(this.barDockControlTop);
             this.Name = "frmKABalans";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Банс з контрагентом";
+            this.Text = "Баланс з контрагентом";
             this.Load += new System.EventHandler(this.frmKABalans_Load);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);

@@ -48,8 +48,6 @@ namespace SkladEngine.Common
             }
         }
 
-
-
         public class Enterprise
         {
             public int KaId { get; set; }

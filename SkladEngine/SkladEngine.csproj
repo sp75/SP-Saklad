@@ -51,8 +51,10 @@
     <Compile Include="Common\DBHelper.cs" />
     <Compile Include="ExecuteDoc\ExecuteWayBill.cs" />
     <Compile Include="ModelViews\GetPosOutView.cs" />
+    <Compile Include="ModelViews\GetWaybillDetIn_Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WayBills\CopyWayBill.cs" />
+    <Compile Include="WayBills\GetWaybillDet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

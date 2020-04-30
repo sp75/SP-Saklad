@@ -102,11 +102,11 @@ namespace SP.Base.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IntermediateWeighing> IntermediateWeighing { get; set; }
 
-        public virtual Kagent Kagent { get; set; }
+        public virtual Kagent Person { get; set; }
 
-        public virtual Kagent Kagent1 { get; set; }
+        public virtual Kagent Kontragent { get; set; }
 
-        public virtual Kagent Kagent2 { get; set; }
+        public virtual Kagent Enterprise { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TechProcDet> TechProcDet { get; set; }

@@ -224,10 +224,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ComPortHelper.cs" />
+    <Compile Include="Common\DBHelper.cs" />
     <Compile Include="Common\DocEdit.cs" />
     <Compile Include="Common\EFAuditingHelperMethods.cs" />
     <Compile Include="Common\FindDoc.cs" />
     <Compile Include="Common\History.cs" />
+    <Compile Include="Common\new_IHelper.cs" />
     <Compile Include="Common\IHelper.cs" />
     <Compile Include="Common\ManufDocEdit.cs" />
     <Compile Include="Common\MoneyToStr.cs" />
@@ -2056,6 +2058,10 @@
     <ProjectReference Include="..\SkladEngine\SkladEngine.csproj">
       <Project>{053e5968-b5fb-41bd-9e8f-8f4a9c60d922}</Project>
       <Name>SkladEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SP.Base\SP.Base.csproj">
+      <Project>{8258d419-4330-4123-b455-a72df0efe4f2}</Project>
+      <Name>SP.Base</Name>
     </ProjectReference>
     <ProjectReference Include="..\SP.Reports\SP.Reports.csproj">
       <Project>{883fd91d-bb03-4aa6-b846-6f196cd0e6b4}</Project>

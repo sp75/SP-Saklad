@@ -730,6 +730,122 @@ namespace SP.Base.Models
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetUserAccessCashDesks_Result>("[SPBaseModel].[GetUserAccessCashDesks](@user_id)", user_idParameter);
         }
 
+
+      //  public virtual DbSet<GetUserAccessCashDesks_Result> GetUserAccessCashDesks_Result { get; set; }
+        [DbFunction("SPBaseModel", "GetDiscount")]
+        public virtual IQueryable<Nullable<decimal>> GetDiscount(Nullable<int> ka_id, Nullable<int> mat_id)
+        {
+            var ka_idParameter = ka_id.HasValue ?
+                new ObjectParameter("ka_id", ka_id) :
+                new ObjectParameter("ka_id", typeof(int));
+
+            var mat_idParameter = mat_id.HasValue ?
+                new ObjectParameter("mat_id", mat_id) :
+                new ObjectParameter("mat_id", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<Nullable<decimal>>("[SPBaseModel].[GetDiscount](@ka_id, @mat_id)", ka_idParameter, mat_idParameter);
+        }
+
+        public virtual DbSet<GetMatList_Result> GetMatList_Result { get; set; }
+        [DbFunction("SPBaseModel", "GetMatList")]
+        public virtual IQueryable<GetMatList_Result> GetMatList(Nullable<int> grp, Nullable<int> get_price, Nullable<int> get_archived, Nullable<int> get_child_node)
+        {
+            var grpParameter = grp.HasValue ?
+                new ObjectParameter("grp", grp) :
+                new ObjectParameter("grp", typeof(int));
+
+            var get_priceParameter = get_price.HasValue ?
+                new ObjectParameter("get_price", get_price) :
+                new ObjectParameter("get_price", typeof(int));
+
+            var get_archivedParameter = get_archived.HasValue ?
+                new ObjectParameter("get_archived", get_archived) :
+                new ObjectParameter("get_archived", typeof(int));
+
+            var get_child_nodeParameter = get_child_node.HasValue ?
+                new ObjectParameter("get_child_node", get_child_node) :
+                new ObjectParameter("get_child_node", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetMatList_Result>("[SPBaseModel].[GetMatList](@grp, @get_price, @get_archived, @get_child_node)", grpParameter, get_priceParameter, get_archivedParameter, get_child_nodeParameter);
+        }
+
+        public virtual DbSet<GetLastPrice_Result> GetLastPrice_Result { get; set; }
+        [DbFunction("SPBaseModel", "GetLastPrice")]
+        public virtual IQueryable<GetLastPrice_Result> GetLastPrice(Nullable<int> mat_id, Nullable<int> ka_id, Nullable<int> wtype, Nullable<System.DateTime> on_date)
+        {
+            var mat_idParameter = mat_id.HasValue ?
+                new ObjectParameter("mat_id", mat_id) :
+                new ObjectParameter("mat_id", typeof(int));
+
+            var ka_idParameter = ka_id.HasValue ?
+                new ObjectParameter("ka_id", ka_id) :
+                new ObjectParameter("ka_id", typeof(int));
+
+            var wtypeParameter = wtype.HasValue ?
+                new ObjectParameter("wtype", wtype) :
+                new ObjectParameter("wtype", typeof(int));
+
+            var on_dateParameter = on_date.HasValue ?
+                new ObjectParameter("on_date", on_date) :
+                new ObjectParameter("on_date", typeof(System.DateTime));
+
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetLastPrice_Result>("[SPBaseModel].[GetLastPrice](@mat_id, @ka_id, @wtype, @on_date)", mat_idParameter, ka_idParameter, wtypeParameter, on_dateParameter);
+        }
+
+        public virtual DbSet<GetListMatPrices_Result> GetListMatPrices_Result { get; set; }
+        [DbFunction("SPBaseModel", "GetListMatPrices")]
+        public virtual IQueryable<GetListMatPrices_Result> GetListMatPrices(Nullable<int> mat_id, Nullable<int> in_curr_id, Nullable<int> p_type)
+        {
+            var mat_idParameter = mat_id.HasValue ?
+                new ObjectParameter("mat_id", mat_id) :
+                new ObjectParameter("mat_id", typeof(int));
+
+            var in_curr_idParameter = in_curr_id.HasValue ?
+                new ObjectParameter("in_curr_id", in_curr_id) :
+                new ObjectParameter("in_curr_id", typeof(int));
+
+            var p_typeParameter = p_type.HasValue ?
+                new ObjectParameter("p_type", p_type) :
+                new ObjectParameter("p_type", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetListMatPrices_Result>("[SPBaseModel].[GetListMatPrices](@mat_id, @in_curr_id, @p_type)", mat_idParameter, in_curr_idParameter, p_typeParameter);
+        }
+
+
+        public virtual DbSet<GetMatPriceTypes_Result> GetMatPriceTypes_Result { get; set; }
+        [DbFunction("SPBaseModel", "GetMatPriceTypes")]
+        public virtual IQueryable<GetMatPriceTypes_Result> GetMatPriceTypes(Nullable<int> mat_id)
+        {
+            var mat_idParameter = mat_id.HasValue ?
+                new ObjectParameter("mat_id", mat_id) :
+                new ObjectParameter("mat_id", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetMatPriceTypes_Result>("[SPBaseModel].[GetMatPriceTypes](@mat_id)", mat_idParameter);
+        }
+
+
+        public virtual DbSet<GetMatChange_Result> GetMatChange_Result { get; set; }
+        [DbFunction("SPBaseModel", "GetMatChange")]
+        public virtual IQueryable<GetMatChange_Result> GetMatChange(Nullable<int> mat_id)
+        {
+            var mat_idParameter = mat_id.HasValue ?
+                new ObjectParameter("mat_id", mat_id) :
+                new ObjectParameter("mat_id", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetMatChange_Result>("[SPBaseModel].[GetMatChange](@mat_id)", mat_idParameter);
+        }
+
+
+        public virtual DbSet<GetDirTree_Result> GetDirTree_Result { get; set; }
+        public virtual ObjectResult<GetDirTree_Result> GetDirTree(Nullable<int> user_id)
+        {
+            var user_idParameter = user_id.HasValue ?
+                new ObjectParameter("user_id", user_id) :
+                new ObjectParameter("user_id", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDirTree_Result>("GetDirTree", user_idParameter);
+        }
+
         public virtual DbSet<REP_27_Result> REP_27_Result { get; set; }
         [DbFunction("SPBaseModel", "REP_27")]
         public virtual IQueryable<REP_27_Result> REP_27(Nullable<System.DateTime> from_date, Nullable<System.DateTime> to_date, Nullable<int> ka_id, Nullable<int> grp_id, Nullable<int> mat_id, Nullable<System.Guid> ka_grp_id, Nullable<int> person_id)
@@ -1376,7 +1492,7 @@ namespace SP.Base.Models
 
             modelBuilder.Entity<Kagent>()
                 .HasMany(e => e.WaybillList)
-                .WithOptional(e => e.Kagent)
+                .WithOptional(e => e.Person)
                 .HasForeignKey(e => e.PersonId);
 
             modelBuilder.Entity<Kagent>()
@@ -1447,7 +1563,7 @@ namespace SP.Base.Models
 
             modelBuilder.Entity<Kagent>()
                 .HasMany(e => e.WaybillList1)
-                .WithOptional(e => e.Kagent1)
+                .WithOptional(e => e.Kontragent)
                 .HasForeignKey(e => e.KaId);
 
             modelBuilder.Entity<Kagent>()
@@ -1463,7 +1579,7 @@ namespace SP.Base.Models
 
             modelBuilder.Entity<Kagent>()
                 .HasMany(e => e.WaybillList2)
-                .WithOptional(e => e.Kagent2)
+                .WithOptional(e => e.Enterprise)
                 .HasForeignKey(e => e.EntId);
 
             modelBuilder.Entity<Kagent>()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SP_Sklad.SkladData;
+using SP.Base.Models;
 
 namespace SP_Sklad.Common
 {
@@ -11,7 +11,7 @@ namespace SP_Sklad.Common
     {
         #region Init
 
-        public UserSettingsRepository(int user_id, BaseEntities db)
+        public UserSettingsRepository(int user_id, SPBaseModel db)
         {
             _user_id = user_id;
             _db = db;
@@ -19,7 +19,12 @@ namespace SP_Sklad.Common
         }
 
         public UserSettingsRepository()
-            : this(UserSession.UserId, new BaseEntities())
+            : this(UserSession.UserId, new SPBaseModel())
+        {
+        }
+
+        public UserSettingsRepository(int user_id)
+           : this(user_id, new SPBaseModel())
         {
         }
 
@@ -173,7 +178,7 @@ namespace SP_Sklad.Common
         #region Fields
 
         private readonly int _user_id;
-        private readonly BaseEntities _db;
+        private readonly SPBaseModel _db;
         private readonly List<UserSettings> _settings_collection;
 
         #endregion

@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SP_Sklad.SkladData;
 using SP_Sklad.EditForm;
 using SP_Sklad.Common;
 using DevExpress.XtraTreeList;
@@ -16,6 +15,8 @@ using System.IO;
 using System.Diagnostics;
 using SP_Sklad.Properties;
 using DevExpress.XtraTreeList.Nodes;
+using SP.Base.Models;
+using SP.Base;
 
 namespace SP_Sklad.MainTabs
 {
@@ -67,12 +68,12 @@ namespace SP_Sklad.MainTabs
                 custom_mat_list = new List<CustomMatList>();
                 MatListGridControl.DataSource = custom_mat_list;
 
-                repositoryItemLookUpEdit1.DataSource = DBHelper.WhList;
+                repositoryItemLookUpEdit1.DataSource = Common.DBHelper.WhList;
 
-                DirTreeBS.DataSource = DB.SkladBase().GetDirTree(DBHelper.CurrentUser.UserId).ToList();
+                DirTreeBS.DataSource = Database.SPBase().GetDirTree(Common.DBHelper.CurrentUser.UserId).ToList();
                 DirTreeList.ExpandToLevel(1);
 
-                KagentSaldoGridColumn.Visible = (DBHelper.CurrentUser.ShowBalance == 1);
+                KagentSaldoGridColumn.Visible = (Common.DBHelper.CurrentUser.ShowBalance == 1);
                 KagentSaldoGridColumn.OptionsColumn.ShowInCustomizationForm = KagentSaldoGridColumn.Visible;
             }
         }
@@ -109,7 +110,7 @@ namespace SP_Sklad.MainTabs
 
         private void RefrechItemBtn_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            var _db = DB.SkladBase();
+            var _db = Database.SPBase();
             int top_row;
 
             switch (focused_tree_node.GType)
@@ -150,35 +151,35 @@ namespace SP_Sklad.MainTabs
                     break;
 
                 case 3:
-                    if (focused_tree_node.Id == 51) ServicesBS.DataSource = DB.SkladBase().v_Services.ToList();
-                    else ServicesBS.DataSource = DB.SkladBase().v_Services.Where(w => w.GrpId == focused_tree_node.GrpId).ToList();
+                    if (focused_tree_node.Id == 51) ServicesBS.DataSource = Database.SPBase().v_Services.ToList();
+                    else ServicesBS.DataSource = Database.SPBase().v_Services.Where(w => w.GrpId == focused_tree_node.GrpId).ToList();
                     break;
 
                 case 4: switch (focused_tree_node.Id)
                     {
                         case 25:
-                            WarehouseBS.DataSource = DB.SkladBase().Warehouse.ToList();
+                            WarehouseBS.DataSource = Database.SPBase().Warehouse.ToList();
                             extDirTabControl.SelectedTabPageIndex = 1;
                             break;
 
                         case 11:
-                            BanksBS.DataSource = DB.SkladBase().Banks.ToList();
+                            BanksBS.DataSource = Database.SPBase().Banks.ToList();
                             extDirTabControl.SelectedTabPageIndex = 9;
                             break;
 
                         case 2:
-                            MeasuresDS.DataSource = DB.SkladBase().Measures.ToList();
+                            MeasuresDS.DataSource = Database.SPBase().Measures.ToList();
                             extDirTabControl.SelectedTabPageIndex = 2;
                             break;
 
                         case 12:
-                            AccountTypeBS.DataSource = DB.SkladBase().AccountType.ToList();
+                            AccountTypeBS.DataSource = Database.SPBase().AccountType.ToList();
                             extDirTabControl.SelectedTabPageIndex = 5;
                             break;
 
                         case 43:
                             var top = CountriesGridView.TopRowIndex;
-                            CountriesBS.DataSource = DB.SkladBase().Countries.ToList();
+                            CountriesBS.DataSource = Database.SPBase().Countries.ToList();
                             CountriesGridView.TopRowIndex = top;
 
                             extDirTabControl.SelectedTabPageIndex = 8;
@@ -200,12 +201,12 @@ namespace SP_Sklad.MainTabs
                             break;
 
                         case 102:
-                            ChargeTypeBS.DataSource = DB.SkladBase().ChargeType.ToList();
+                            ChargeTypeBS.DataSource = Database.SPBase().ChargeType.ToList();
                             extDirTabControl.SelectedTabPageIndex = 6;
                             break;
 
                         case 64:
-                            CashDesksBS.DataSource = DB.SkladBase().CashDesks.ToList().Where(w => DBHelper.CashDesks.Select(s=> s.CashId).Contains(w.CashId)).ToList();
+                            CashDesksBS.DataSource = Database.SPBase().CashDesks.ToList().Where(w => DBHelper.CashDesks.Select(s=> s.CashId).Contains(w.CashId)).ToList();
                             extDirTabControl.SelectedTabPageIndex = 7;
                             break;
 
@@ -405,16 +406,16 @@ namespace SP_Sklad.MainTabs
                     break;
 
                 case 2:
-                    if (DB.SkladBase().MatGroup.Any())
+                    if (Database.SPBase().MatGroup.Any())
                     {
-                        var mat_edit = new frmMaterialEdit(null, focused_tree_node.Id < 0 ? focused_tree_node.Id * -1 : DB.SkladBase().MatGroup.First().GrpId);
+                        var mat_edit = new frmMaterialEdit(null, focused_tree_node.Id < 0 ? focused_tree_node.Id * -1 : Database.SPBase().MatGroup.First().GrpId);
                         mat_edit.ShowDialog();
                     }
                     break;
 
-                case 3: if (DB.SkladBase().SvcGroup.Any())
+                case 3: if (Database.SPBase().SvcGroup.Any())
                     {
-                        var svc_edit = new frmServicesEdit(null, focused_tree_node.Id < 0 ? focused_tree_node.Id * -1 : DB.SkladBase().SvcGroup.First().GrpId);
+                        var svc_edit = new frmServicesEdit(null, focused_tree_node.Id < 0 ? focused_tree_node.Id * -1 : Database.SPBase().SvcGroup.First().GrpId);
                         svc_edit.ShowDialog();
                     }
                     break;
@@ -485,7 +486,7 @@ namespace SP_Sklad.MainTabs
                 return;
             }
 
-            using (var db = DB.SkladBase())
+            using (var db = Database.SPBase())
             {
                 switch (focused_tree_node.GType)
                 {
@@ -669,7 +670,7 @@ namespace SP_Sklad.MainTabs
 
         private void ExplorerRefreshBtn_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            DirTreeBS.DataSource = DB.SkladBase().GetDirTree(DBHelper.CurrentUser.UserId).ToList();
+            DirTreeBS.DataSource = Database.SPBase().GetDirTree(DBHelper.CurrentUser.UserId).ToList();
             DirTreeList.ExpandToLevel(1);
         }
 
@@ -709,12 +710,12 @@ namespace SP_Sklad.MainTabs
             int? prev_id = focused_tree_node.PId;  
             switch (focused_tree_node.GType)
             {
-                case 2: 
-                    DB.SkladBase().DeleteWhere<MatGroup>(w => w.GrpId == focused_tree_node.GrpId);
+                case 2:
+                    Database.SPBase().DeleteWhere<MatGroup>(w => w.GrpId == focused_tree_node.GrpId);
                     break;
 
-                case 3: 
-                    DB.SkladBase().DeleteWhere<SvcGroup>(w => w.GrpId == focused_tree_node.GrpId).SaveChanges();
+                case 3:
+                    Database.SPBase().DeleteWhere<SvcGroup>(w => w.GrpId == focused_tree_node.GrpId);
                     break;
             }
 
@@ -786,7 +787,7 @@ namespace SP_Sklad.MainTabs
             decimal Price = 0;
             if (wb.WType == 1)
             {
-                var get_last_price_result = DB.SkladBase().GetLastPrice(mat_id, wb.KaId, 1, wb.OnDate).FirstOrDefault();
+                var get_last_price_result = Database.SPBase().GetLastPrice(mat_id, wb.KaId, 1, wb.OnDate).FirstOrDefault();
                 if (get_last_price_result != null)
                 {
                     Price = get_last_price_result.Price ?? 0;
@@ -794,8 +795,8 @@ namespace SP_Sklad.MainTabs
             }
             else if (wb.WType == -1 || wb.WType == -16 || wb.WType == 2)
             {
-                var p_type = (wb.Kontragent != null ? (wb.Kontragent.PTypeId ?? DB.SkladBase().PriceTypes.First(w => w.Def == 1).PTypeId) : DB.SkladBase().PriceTypes.First(w => w.Def == 1).PTypeId);
-                var mat_price = DB.SkladBase().GetListMatPrices(mat_id, wb.CurrId, p_type).FirstOrDefault();
+                var p_type = (wb.Kontragent != null ? (wb.Kontragent.PTypeId ?? Database.SPBase().PriceTypes.First(w => w.Def == 1).PTypeId) : Database.SPBase().PriceTypes.First(w => w.Def == 1).PTypeId);
+                var mat_price = Database.SPBase().GetListMatPrices(mat_id, wb.CurrId, p_type).FirstOrDefault();
                 Price = mat_price.Price ?? 0;
             }
 
@@ -819,7 +820,7 @@ namespace SP_Sklad.MainTabs
 
         private void barButtonItem5_ItemClick_1(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            IHelper.ShowMatRSV(focused_mat.MatId, DB.SkladBase());
+            new_IHelper.ShowMatRSV(focused_mat.MatId, Database.SPBase());
         }
 
         private void barButtonItem12_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -832,7 +833,7 @@ namespace SP_Sklad.MainTabs
 
         private void barButtonItem13_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            var db = DB.SkladBase();
+            var db = Database.SPBase();
             var mat = db.Materials.Find(focused_mat.MatId);
             if (mat != null)
             {
@@ -878,7 +879,7 @@ namespace SP_Sklad.MainTabs
 
         private void barButtonItem10_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            var db = DB.SkladBase();
+            var db = Database.SPBase();
             var ka = db.Kagent.Find(focused_kagent.KaId);
 
             if (ka == null)
@@ -952,7 +953,7 @@ namespace SP_Sklad.MainTabs
                     break;
 
                 case 2:
-                    MatPriceGridControl.DataSource = DB.SkladBase().GetMatPriceTypes(f_row.MatId).ToList().Select(s => new
+                    MatPriceGridControl.DataSource = Database.SPBase().GetMatPriceTypes(f_row.MatId).ToList().Select(s => new
                     {
                         s.PTypeId,
                         s.Name,
@@ -969,7 +970,7 @@ namespace SP_Sklad.MainTabs
                     break;
 
                 case 3:
-                    MatChangeGridControl.DataSource = DB.SkladBase().GetMatChange(f_row.MatId).ToList();
+                    MatChangeGridControl.DataSource = Database.SPBase().GetMatChange(f_row.MatId).ToList();
                     break;
 
                 case 4:
@@ -1095,7 +1096,7 @@ namespace SP_Sklad.MainTabs
              KAgentInfoBS.DataSource = f_row;
              memoEdit1.Text = f_row.Notes;
 
-             using (var db = DB.SkladBase())
+             using (var db = Database.SPBase())
              {
                  gridControl3.DataSource = db.KAgentPersons.Where(w => w.KAId == f_row.KaId).Join(db.Jobs,
                                      person => person.JobType,
@@ -1109,7 +1110,7 @@ namespace SP_Sklad.MainTabs
         private void barButtonItem7_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             var row = MatRecipeGridView.GetFocusedRow() as v_MatRecipe;
-            using (var db = DB.SkladBase())
+            using (var db = Database.SPBase())
             {
                 var r = db.MatRecipe.Find(row.RecId);
 
@@ -1169,7 +1170,7 @@ namespace SP_Sklad.MainTabs
         private void DirTreeList_HiddenEditor(object sender, EventArgs e)
         {
             DirTreeList.OptionsBehavior.Editable = false;
-            using (var db = DB.SkladBase())
+            using (var db = Database.SPBase())
             {
                 if (focused_tree_node.GType.Value == 2)
                 {
@@ -1209,7 +1210,7 @@ namespace SP_Sklad.MainTabs
 
         private void MoveMatgroup(bool isDown)
         {
-            using (var db = DB.SkladBase())
+            using (var db = Database.SPBase())
             {
                 DirTreeList.SetNodeIndex(DirTreeList.FocusedNode, DirTreeList.GetNodeIndex(DirTreeList.FocusedNode) + (isDown ? 1 : -1));
 
